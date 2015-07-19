@@ -1,0 +1,23 @@
+{
+	"ImportPath": "github.com/gloob/gfxBot",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/ajanicij/goduckgo/goduckgo",
+			"Rev": "61f9a275272fdda937276765b8bc69f5e2310a8f"
+		},
+		{
+			"ImportPath": "github.com/naoina/go-stringutil",
+			"Rev": "360db0db4b01d34e12a2ec042c09e7d37fece761"
+		},
+		{
+			"ImportPath": "github.com/naoina/toml",
+			"Rev": "5667c316ee9576e9d5bca793ce4ec813a88ce7d3"
+		},
+		{
+			"ImportPath": "github.com/tucnak/telebot",
+			"Comment": "v1.0",
+			"Rev": "40c91ee0b4c635ca2f520c54617306092cabb845"
+		}
+	]
+}
