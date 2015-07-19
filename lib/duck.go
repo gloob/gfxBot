@@ -12,7 +12,7 @@ import (
 func DuckSearch(query string) (string, string) {
 	message, err := goduckgo.Query(query)
 	if err != nil {
-		fmt.Println(e.Error())
+		fmt.Println(err.Error())
 		os.Exit(-1)
 	}
 
