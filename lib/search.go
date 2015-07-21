@@ -21,6 +21,11 @@ func SearchImage(bot *telebot.Bot, msg telebot.Message) (err error) {
 		return err
 	}
 
+	if caption == "" {
+		bot.SendMessage(msg.Chat, "No results", nil)
+		return nil
+	}
+
 	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: img, Width: 32, Height: 32}, Caption: caption}
 
 	err = bot.SendPhoto(msg.Chat, &photo, &telebot.SendOptions{ ReplyTo: msg })
