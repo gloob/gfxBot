@@ -1,49 +1,45 @@
 package gfxBot
 
 import (
-	"fmt"
+	"errors"
 	"io"
 	"net/http"
-	"os"
 	"strings"
 	"github.com/ajanicij/goduckgo/goduckgo"
 )
 
-func DuckSearch(query string) (string, string) {
+func DuckSearch(query string) (*Image, error) {
 	if query == "" {
-		return "assets/img", ""
+		return nil, errors.New("DuckSearch: called with an empty query string.")
 	}
 
 	message, err := goduckgo.Query(query)
 	if err != nil {
-		fmt.Println(err.Error())
-		return "assets/img", ""
+		return nil, err
 	}
 
 	if message != nil && message.RelatedTopics != nil && len(message.RelatedTopics) != 0  {
 
-		filename := strings.Trim(strings.TrimSpace(query), " ")
 		caption := message.RelatedTopics[0].Text
 		url := strings.TrimSpace(message.RelatedTopics[0].Icon.URL)
 
 		if url != "" {
-		extensionPos := strings.LastIndex(url, ".")
-		extension := url[extensionPos:len(url)]
-		filename = fmt.Sprint("assets/", filename, extension)
+			extensionPos := strings.LastIndex(url, ".")
+			extension := url[extensionPos:len(url)]
 
-		file, _ := os.Create(filename)
-		defer file.Close()
+			img, _ := NewImage(extension, caption)
+			defer img.Close()
 
-		resp, _ := http.Get(url)
-		defer resp.Body.Close()
+			resp, _ := http.Get(url)
+			defer resp.Body.Close()
 
-		io.Copy(file, resp.Body)
+			io.Copy(img, resp.Body)
 
-		return filename, caption
+			return img, nil
 		} else {
-			return "assets/img.jpg", ""
+			return nil, errors.New("DuckSearch: response from Duck service contains an empty URL.")
 		}
 	} else {
-		return "assets/img.jpg", ""
+		return nil, errors.New("DuckSearch: called with an empty query string.")
 	}
 }

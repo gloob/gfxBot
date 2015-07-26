@@ -11,26 +11,31 @@ var (
 
 func SearchImage(bot *telebot.Bot, msg telebot.Message) (err error) {
 
-	filename, caption := DuckSearch(strings.TrimPrefix(msg.Text, "/gfx"))
-	fmt.Println(filename)
-	fmt.Println(caption)
+	img, err := DuckSearch(strings.TrimPrefix(msg.Text, "/gfx"))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 
-	img, err := telebot.NewFile(filename)
+	filename := fmt.Sprint("assets/", msg.ID, img.Ext)
+
+	err = img.Save(filename)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	i, err := telebot.NewFile(filename)
 	if (err != nil) {
 		fmt.Println(err)
 		return err
 	}
 
-	if caption == "" {
-		bot.SendMessage(msg.Chat, "No results", nil)
-		return nil
-	}
-
-	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: img, Width: 32, Height: 32}, Caption: caption}
+	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: i, Width: img.Width, Height: img.Height}, Caption: img.Caption}
 
 	err = bot.SendPhoto(msg.Chat, &photo, &telebot.SendOptions{ ReplyTo: msg })
-
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 
