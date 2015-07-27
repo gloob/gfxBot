@@ -7,6 +7,10 @@
 			"Rev": "61f9a275272fdda937276765b8bc69f5e2310a8f"
 		},
 		{
+			"ImportPath": "github.com/masci/flickr.go/flickr",
+			"Rev": "a2bdfcadad4b37674c60686cd49a4d83c65fb3f9"
+		},
+		{
 			"ImportPath": "github.com/naoina/go-stringutil",
 			"Rev": "360db0db4b01d34e12a2ec042c09e7d37fece761"
 		},
