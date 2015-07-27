@@ -8,12 +8,12 @@ import (
 	"github.com/ajanicij/goduckgo/goduckgo"
 )
 
-func DuckSearch(query string) (*Image, error) {
-	if query == "" {
+func DuckSearch(q string) (*Image, error) {
+	if q == "" {
 		return nil, errors.New("DuckSearch: called with an empty query string.")
 	}
 
-	message, err := goduckgo.Query(query)
+	message, err := goduckgo.Query(q)
 	if err != nil {
 		return nil, err
 	}

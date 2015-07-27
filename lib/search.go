@@ -6,8 +6,9 @@ import (
 	"github.com/tucnak/telebot"
 )
 
-var (
-)
+type Searcher interface {
+	Search(q string) (*Image, error)
+}
 
 func SearchImage(bot *telebot.Bot, msg telebot.Message) (err error) {
 
@@ -25,15 +26,7 @@ func SearchImage(bot *telebot.Bot, msg telebot.Message) (err error) {
 		return err
 	}
 
-	i, err := telebot.NewFile(filename)
-	if (err != nil) {
-		fmt.Println(err)
-		return err
-	}
-
-	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: i, Width: img.Width, Height: img.Height}, Caption: img.Caption}
-
-	err = bot.SendPhoto(msg.Chat, &photo, &telebot.SendOptions{ ReplyTo: msg })
+	err = img.Send(bot, msg)
 	if err != nil {
 		fmt.Println(err)
 		return err
