@@ -3,6 +3,7 @@ package gfxBot
 import (
 	"errors"
 	"fmt"
+	"math"
 	"os"
         "github.com/tucnak/telebot"
 )
@@ -68,7 +69,8 @@ func (img *Image) Send(bot *telebot.Bot, msg telebot.Message) (err error) {
 		return err
 	}
 
-	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: i, Width: img.Width, Height: img.Height}, Caption: img.Caption}
+	caption := img.Caption[:int(math.Min(float64(len(img.Caption)), 256))]
+	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: i, Width: img.Width, Height: img.Height}, Caption: caption}
 
 	err = bot.SendPhoto(msg.Chat, &photo, &telebot.SendOptions{ ReplyTo: msg })
 	if err != nil {
