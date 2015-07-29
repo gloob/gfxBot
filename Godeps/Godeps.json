@@ -16,7 +16,7 @@
 		},
 		{
 			"ImportPath": "github.com/naoina/toml",
-			"Rev": "5667c316ee9576e9d5bca793ce4ec813a88ce7d3"
+			"Rev": "5811abcabb29d6af0fdf060f96d328962bd3cd5e"
 		},
 		{
 			"ImportPath": "github.com/tucnak/telebot",
