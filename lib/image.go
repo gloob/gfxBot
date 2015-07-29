@@ -8,6 +8,10 @@ import (
         "github.com/tucnak/telebot"
 )
 
+const (
+	MaxCaption = 255
+)
+
 type Image struct {
 	Data		[]byte
 	Width		int
@@ -69,7 +73,7 @@ func (img *Image) Send(bot *telebot.Bot, msg telebot.Message) (err error) {
 		return err
 	}
 
-	caption := img.Caption[:int(math.Min(float64(len(img.Caption)), 256))]
+	caption := img.Caption[:int(math.Min(float64(len(img.Caption)), MaxCaption))]
 	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: i, Width: img.Width, Height: img.Height}, Caption: caption}
 
 	err = bot.SendPhoto(msg.Chat, &photo, &telebot.SendOptions{ ReplyTo: msg })
