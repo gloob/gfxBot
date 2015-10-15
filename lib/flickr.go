@@ -73,7 +73,10 @@ func (f *Flickr) Search(q string) (*Image, error) {
 	img, _ := NewImage(".jpg", photo.Title)
 	defer img.Close()
 
-	resp, _ := http.Get(photo.buildUrl())
+	resp, err := http.Get(photo.buildUrl())
+	if err != nil {
+		return nil, err
+	}
 	fmt.Println(resp.Body)
 	defer resp.Body.Close()
 

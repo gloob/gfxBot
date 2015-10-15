@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	MaxCaption = 255
+	MaxCaption = 200
 )
 
 type Image struct {
