@@ -2,10 +2,10 @@ package gfxBot
 
 import (
 	"errors"
+	"github.com/ajanicij/goduckgo/goduckgo"
 	"io"
 	"net/http"
 	"strings"
-	"github.com/ajanicij/goduckgo/goduckgo"
 )
 
 func DuckSearch(q string) (*Image, error) {
@@ -18,7 +18,7 @@ func DuckSearch(q string) (*Image, error) {
 		return nil, err
 	}
 
-	if message != nil && message.RelatedTopics != nil && len(message.RelatedTopics) != 0  {
+	if message != nil && message.RelatedTopics != nil && len(message.RelatedTopics) != 0 {
 
 		caption := message.RelatedTopics[0].Text
 		url := strings.TrimSpace(message.RelatedTopics[0].Icon.URL)

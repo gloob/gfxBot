@@ -1,14 +1,18 @@
 {
 	"ImportPath": "github.com/gloob/gfxBot",
-	"GoVersion": "go1.4.2",
+	"GoVersion": "go1.5.1",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/ajanicij/goduckgo/goduckgo",
 			"Rev": "61f9a275272fdda937276765b8bc69f5e2310a8f"
 		},
 		{
-			"ImportPath": "github.com/masci/flickr.go/flickr",
-			"Rev": "a2bdfcadad4b37674c60686cd49a4d83c65fb3f9"
+			"ImportPath": "github.com/masci/flickr",
+			"Comment": "0.1-2-gb25e3a4",
+			"Rev": "b25e3a42cdc2a3936d3bb0eccd42f7f917445fc3"
 		},
 		{
 			"ImportPath": "github.com/naoina/go-stringutil",
@@ -17,6 +21,10 @@
 		{
 			"ImportPath": "github.com/naoina/toml",
 			"Rev": "5811abcabb29d6af0fdf060f96d328962bd3cd5e"
+		},
+		{
+			"ImportPath": "github.com/stathat/go",
+			"Rev": "01d012b9ee2ecc107cb28b6dd32d9019ed5c1d77"
 		},
 		{
 			"ImportPath": "github.com/tucnak/telebot",

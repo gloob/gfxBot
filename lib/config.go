@@ -8,9 +8,9 @@ import (
 )
 
 type GlobalConfig struct {
-	Token 		string
-	FlickrAPIKey	string
-	FlickrAPISecret	string
+	Token           string
+	FlickrAPIKey    string
+	FlickrAPISecret string
 }
 
 type ProxyConfig struct {

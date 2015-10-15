@@ -3,9 +3,9 @@ package gfxBot
 import (
 	"errors"
 	"fmt"
+	"github.com/tucnak/telebot"
 	"math"
 	"os"
-        "github.com/tucnak/telebot"
 )
 
 const (
@@ -13,19 +13,19 @@ const (
 )
 
 type Image struct {
-	Data		[]byte
-	Width		int
-	Height		int
-	Caption		string
-	Ext		string
-	Filename	string
+	Data     []byte
+	Width    int
+	Height   int
+	Caption  string
+	Ext      string
+	Filename string
 }
 
 func NewImage(ext string, caption string) (*Image, error) {
 	return &Image{Ext: ext, Caption: caption, Filename: ""}, nil
 }
 
-func (img *Image) Save(path string) (error) {
+func (img *Image) Save(path string) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return err
@@ -62,21 +62,21 @@ func (img *Image) Send(bot *telebot.Bot, msg telebot.Message) (err error) {
 		bot.SendMessage(msg.Chat, warning, nil)
 		return errors.New(warning)
 	}
-        img.Filename = fmt.Sprint("assets/", msg.ID, img.Ext)
+	img.Filename = fmt.Sprint("assets/", msg.ID, img.Ext)
 	if img.Filename == "" {
 		bot.SendMessage(msg.Chat, "There's any filename associated to this query.", nil)
 		return errors.New("There's any filename associated to this query.")
 	}
 
 	i, err := telebot.NewFile(img.Filename)
-	if (err != nil) {
+	if err != nil {
 		return err
 	}
 
 	caption := img.Caption[:int(math.Min(float64(len(img.Caption)), MaxCaption))]
 	photo := telebot.Photo{Thumbnail: telebot.Thumbnail{File: i, Width: img.Width, Height: img.Height}, Caption: caption}
 
-	err = bot.SendPhoto(msg.Chat, &photo, &telebot.SendOptions{ ReplyTo: msg })
+	err = bot.SendPhoto(msg.Chat, &photo, &telebot.SendOptions{ReplyTo: msg})
 	if err != nil {
 		return err
 	}

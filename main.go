@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gloob/gfxBot/lib"
+	"github.com/stathat/go"
 	"github.com/tucnak/telebot"
 )
 
@@ -37,6 +38,7 @@ func main() {
 
 	for message := range messages {
 		fmt.Println(message)
+		stathat.PostEZCount("gfxBot message processed", "gloob@litio.org", 1)
 		if message.Text == "/start" {
 			bot.SendMessage(message.Chat, "This is a Telegram bot for searching images into different services.", nil)
 		}

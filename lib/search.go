@@ -2,8 +2,8 @@ package gfxBot
 
 import (
 	"fmt"
-	"strings"
 	"github.com/tucnak/telebot"
+	"strings"
 )
 
 type Searcher interface {
