@@ -1,0 +1,4 @@
+start - Initialize the bot.
+help - About Gfx Bot.
+duck - Search for a string into duckduckgo and return an associated image.
+flickr - Search for a string into flickr and return an associated image.
