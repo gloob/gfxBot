@@ -42,7 +42,7 @@ func main() {
 		if message.Text == "/start" {
 			bot.SendMessage(message.Chat, "This is a Telegram bot for searching images into different services.", nil)
 		}
-		if strings.HasPrefix(message.Text, "/gfx") {
+		if strings.HasPrefix(message.Text, "/duck") {
 			bot.SendChatAction(message.Chat, telebot.Typing)
 			gfxBot.SearchImage(bot, message)
 		}
