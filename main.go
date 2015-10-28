@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os/user"
 	"strings"
 	"time"
@@ -20,17 +21,17 @@ func main() {
 	// Load main configuration.
 	usr, err := user.Current()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	configFile := usr.HomeDir + "/.config/gfxBot/config.toml"
 	err = gfxBot.LoadConfig(configFile, &globalConfig)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	bot, err := telebot.NewBot(globalConfig.Token)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	messages := make(chan telebot.Message)
