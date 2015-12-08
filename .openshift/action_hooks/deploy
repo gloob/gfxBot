@@ -4,11 +4,12 @@
 set -e
 
 # Creating config directory and copy example config file if it doesn't exists.
-if [ ! -d "~/.config/gfxbot" ]; then
-  echo Creating config directory.
-  mkdir -p ~/.config/gfxbot/
-fi
+#if [ ! -d "~/.config/gfxbot" ]; then
+#  echo Creating config directory.
+#  mkdir -p ~/.config/gfxbot/
+#fi
 
-if [ ! -f "~/.config/gfxbot/config.toml" ]; then
-  cp $OPENSHIFT_REPO_DIR/conf/config.toml ~/.config/gfxbot/config.toml
+# Creating config file in bin directory.
+if [ ! -f "$OPENSHIFT_REPO_DIR/bin/config.toml" ]; then
+  cp $OPENSHIFT_REPO_DIR/conf/config.toml $OPENSHIFT_REPO_DIR/bin/config.toml
 fi

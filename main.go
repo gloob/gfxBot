@@ -23,7 +23,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	configFile := usr.HomeDir + "/.config/gfxbot/config.toml"
+	fmt.Println(usr)
+	//configFile := usr.HomeDir + "/.config/gfxbot/config.toml"
+	configFile := "config.toml"
 	err = gfxBot.LoadConfig(configFile, &globalConfig)
 	if err != nil {
 		log.Fatal(err)
