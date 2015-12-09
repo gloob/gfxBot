@@ -9,7 +9,10 @@ set -e
 #  mkdir -p ~/.config/gfxbot/
 #fi
 
-# Creating config file in bin directory.
-if [ ! -f "$OPENSHIFT_REPO_DIR/config.toml" ]; then
+# First, check if there's a config file in the data dir and copy it.
+# If not, copy the config template.
+if [ -f "$OPENSHIFT_DATA_DIR/config.toml" ]; then
+  cp $OPENSHIFT_DATA_DIR/config.toml $OPENSHIFT_REPO_DIR/config.toml
+elif [ ! -f "$OPENSHIFT_REPO_DIR/config.toml" ]; then
   cp $OPENSHIFT_REPO_DIR/conf/config.toml $OPENSHIFT_REPO_DIR/config.toml
 fi
