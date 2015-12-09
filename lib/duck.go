@@ -8,7 +8,17 @@ import (
 	"strings"
 )
 
-func DuckSearch(q string) (*Image, error) {
+type Duck struct {
+	Service string
+}
+
+func NewDuck() *Duck {
+	return &Duck{
+		Service: "DuckDuckGo",
+	}
+}
+
+func (d *Duck) Search(q string) (*Image, error) {
 	if q == "" {
 		return nil, errors.New("DuckSearch: called with an empty query string.")
 	}
@@ -17,11 +27,10 @@ func DuckSearch(q string) (*Image, error) {
 	if err != nil {
 		return nil, err
 	}
+	if message != nil && message.Image != "" {
 
-	if message != nil && message.RelatedTopics != nil && len(message.RelatedTopics) != 0 {
-
-		caption := message.RelatedTopics[0].Text
-		url := strings.TrimSpace(message.RelatedTopics[0].Icon.URL)
+		caption := message.Heading
+		url := strings.TrimSpace(message.Image)
 
 		if url != "" {
 			extensionPos := strings.LastIndex(url, ".")

@@ -47,7 +47,20 @@ func main() {
 		}
 		if strings.HasPrefix(message.Text, "/duck") {
 			bot.SendChatAction(message.Chat, telebot.Typing)
-			gfxBot.SearchImage(bot, message)
+			duck := gfxBot.NewDuck()
+			img, err := duck.Search(strings.TrimPrefix(strings.TrimPrefix(message.Text, "/duck"), "@gfxBot"))
+			if err != nil {
+				fmt.Println("Error in duck.Search()")
+				fmt.Println(err)
+				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
+				continue
+			}
+			filename := fmt.Sprint("assets/", message.ID, img.Ext)
+			err = img.Save(filename)
+			err = img.Send(bot, message)
+			if err != nil {
+				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
+			}
 		}
 		if strings.HasPrefix(message.Text, "/flickr") {
 			bot.SendChatAction(message.Chat, telebot.Typing)
