@@ -10,6 +10,6 @@ set -e
 #fi
 
 # Creating config file in bin directory.
-if [ ! -f "$OPENSHIFT_REPO_DIR/bin/config.toml" ]; then
-  cp $OPENSHIFT_REPO_DIR/conf/config.toml $OPENSHIFT_REPO_DIR/bin/config.toml
+if [ ! -f "$OPENSHIFT_REPO_DIR/config.toml" ]; then
+  cp $OPENSHIFT_REPO_DIR/conf/config.toml $OPENSHIFT_REPO_DIR/config.toml
 fi
