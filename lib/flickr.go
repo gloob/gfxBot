@@ -5,9 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/masci/flickr"
-	"io"
 	"math/rand"
-	"net/http"
 	"strings"
 )
 
@@ -70,17 +68,7 @@ func (f *Flickr) Search(q string) (*Image, error) {
 	idx := rand.Intn(len(p.Photos))
 	photo := p.Photos[idx]
 
-	img, _ := NewImage(".jpg", photo.Title)
-	defer img.Close()
-
-	resp, err := http.Get(photo.buildUrl())
-	if err != nil {
-		return nil, err
-	}
-	fmt.Println(resp.Body)
-	defer resp.Body.Close()
-
-	io.Copy(img, resp.Body)
+	img, _ := NewImage(photo.buildUrl(), photo.Title)
 
 	return img, nil
 }

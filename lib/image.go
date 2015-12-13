@@ -4,8 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/tucnak/telebot"
+	"io"
 	"math"
+	"net/http"
 	"os"
+	"strings"
 )
 
 const (
@@ -14,6 +17,7 @@ const (
 
 type Image struct {
 	Data     []byte
+	Url      string
 	Width    int
 	Height   int
 	Caption  string
@@ -21,8 +25,32 @@ type Image struct {
 	Filename string
 }
 
-func NewImage(ext string, caption string) (*Image, error) {
-	return &Image{Ext: ext, Caption: caption, Filename: ""}, nil
+func NewImage(url string, caption string) (*Image, error) {
+	var ext string
+	if url != "" {
+		extensionPos := strings.LastIndex(url, ".")
+		ext = url[extensionPos:len(url)]
+		fmt.Println(ext)
+	} else {
+		ext = ".jpg"
+	}
+
+	return &Image{Url: url, Caption: caption, Ext: ext, Filename: ""}, nil
+}
+
+func (img *Image) Download() error {
+	defer img.Close()
+
+	resp, err := http.Get(img.Url)
+	if err != nil {
+		return err
+	}
+	fmt.Println(resp.Body)
+	defer resp.Body.Close()
+
+	io.Copy(img, resp.Body)
+
+	return nil
 }
 
 func (img *Image) Save(path string) error {
@@ -62,6 +90,7 @@ func (img *Image) Send(bot *telebot.Bot, msg telebot.Message) (err error) {
 		bot.SendMessage(msg.Chat, warning, nil)
 		return errors.New(warning)
 	}
+
 	img.Filename = fmt.Sprint("assets/", msg.ID, img.Ext)
 	if img.Filename == "" {
 		bot.SendMessage(msg.Chat, "There's any filename associated to this query.", nil)

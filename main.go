@@ -55,9 +55,7 @@ func main() {
 				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
 				continue
 			}
-			filename := fmt.Sprint("assets/", message.ID, img.Ext)
-			err = img.Save(filename)
-			err = img.Send(bot, message)
+			err = sendImage(bot, message, img)
 			if err != nil {
 				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
 			}
@@ -72,9 +70,7 @@ func main() {
 				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
 				continue
 			}
-			filename := fmt.Sprint("assets/", message.ID, img.Ext)
-			err = img.Save(filename)
-			err = img.Send(bot, message)
+			err = sendImage(bot, message, img)
 			if err != nil {
 				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
 			}
@@ -83,4 +79,17 @@ func main() {
 			bot.SendMessage(message.Chat, "This is a Telegram bot for searching images into different services.", nil)
 		}
 	}
+}
+
+func sendImage(bot *telebot.Bot, msg telebot.Message, img *gfxBot.Image) error {
+	filename := fmt.Sprint("assets/", msg.ID, img.Ext)
+	var err error
+	err = img.Download()
+	err = img.Save(filename)
+	err = img.Send(bot, msg)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

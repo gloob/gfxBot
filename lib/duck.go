@@ -3,8 +3,6 @@ package gfxBot
 import (
 	"errors"
 	"github.com/ajanicij/goduckgo/goduckgo"
-	"io"
-	"net/http"
 	"strings"
 )
 
@@ -27,28 +25,27 @@ func (d *Duck) Search(q string) (*Image, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	var url, caption string
+	// First we tried to obtain main Image from article.
 	if message != nil && message.Image != "" {
-
-		caption := message.Heading
-		url := strings.TrimSpace(message.Image)
-
-		if url != "" {
-			extensionPos := strings.LastIndex(url, ".")
-			extension := url[extensionPos:len(url)]
-
-			img, _ := NewImage(extension, caption)
-			defer img.Close()
-
-			resp, _ := http.Get(url)
-			defer resp.Body.Close()
-
-			io.Copy(img, resp.Body)
-
-			return img, nil
-		} else {
-			return nil, errors.New("DuckSearch: response from Duck service contains an empty URL.")
-		}
+		url = strings.TrimSpace(message.Image)
+		caption = message.Heading
+		// If there's no image we try to obtain an image or set of images from RelatedTopics.
 	} else {
-		return nil, errors.New("DuckSearch: called with an empty query string.")
+		for _, t := range message.RelatedTopics {
+			if !t.Icon.IsEmpty() && t.Icon.URL != "" {
+				url = strings.TrimSpace(t.Icon.URL)
+				caption = t.Text
+				break
+			}
+		}
+	}
+
+	if url != "" {
+		img, _ := NewImage(url, caption)
+		return img, nil
+	} else {
+		return nil, errors.New("DuckSearch error.")
 	}
 }
