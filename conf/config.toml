@@ -1,2 +1,4 @@
 # It should be located at ~/.config/irc_bot/config.toml
 Token = "Your token here."
+FlickrAPIKey = "YourFlickrApiKey"
+FlickrAPISecret = "YourFlickrApiSecret"
