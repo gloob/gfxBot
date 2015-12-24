@@ -75,6 +75,21 @@ func main() {
 				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
 			}
 		}
+		if strings.HasPrefix(message.Text, "/instagram") {
+			bot.SendChatAction(message.Chat, telebot.Typing)
+			instagram := gfxBot.NewInstagram(globalConfig.InstagramAPIKey, globalConfig.InstagramAPISecret, globalConfig.InstagramAPIToken)
+			img, err := instagram.Search(strings.TrimPrefix(strings.TrimPrefix(message.Text, "/instagram"), "@gfxBot"))
+			if err != nil {
+				fmt.Println("Error in instagram.Search()")
+				fmt.Println(err)
+				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
+				continue
+			}
+			err = sendImage(bot, message, img)
+			if err != nil {
+				bot.SendMessage(message.Chat, fmt.Sprintf("%s", err), nil)
+			}
+		}
 		if message.Text == "/help" {
 			bot.SendMessage(message.Chat, "This is a Telegram bot for searching images into different services.", nil)
 		}
