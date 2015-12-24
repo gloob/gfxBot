@@ -3,21 +3,24 @@ package gfxBot
 import (
 	"errors"
 	"fmt"
-	"github.com/tucnak/telebot"
 	"io"
 	"math"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/tucnak/telebot"
 )
 
 const (
+	// MaxCaption define the maximum size of image captions (It seems telegram
+	// image captions have a size limit).
 	MaxCaption = 200
 )
 
 type Image struct {
 	Data     []byte
-	Url      string
+	URL      string
 	Width    int
 	Height   int
 	Caption  string
@@ -30,18 +33,17 @@ func NewImage(url string, caption string) (*Image, error) {
 	if url != "" {
 		extensionPos := strings.LastIndex(url, ".")
 		ext = url[extensionPos:len(url)]
-		fmt.Println(ext)
 	} else {
 		ext = ".jpg"
 	}
 
-	return &Image{Url: url, Caption: caption, Ext: ext, Filename: ""}, nil
+	return &Image{URL: url, Caption: caption, Ext: ext, Filename: ""}, nil
 }
 
 func (img *Image) Download() error {
 	defer img.Close()
 
-	resp, err := http.Get(img.Url)
+	resp, err := http.Get(img.URL)
 	if err != nil {
 		return err
 	}
